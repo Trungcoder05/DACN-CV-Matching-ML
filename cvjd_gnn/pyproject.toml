@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cvjd-gnn"
+version = "0.1.0"
+description = "Python research pipeline for CV-job matching with heterogeneous GraphSAGE"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "torch==2.7.1",
+]
+
+[dependency-groups]
+dev = ["pytest>=8,<9", "ruff>=0.9,<1"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

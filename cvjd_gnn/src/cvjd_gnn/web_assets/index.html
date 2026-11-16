@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Phân tích CV và khám phá vị trí thực tập CNTT phù hợp bằng mô hình GNN của nhóm.">
+  <title>CVMatch — Phân tích CV thực tập</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/app.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="CVMatch, trang chủ">
+      <span class="brand-icon" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M8 7h12M8 7v14m0-7h12"/><circle cx="8" cy="7" r="3"/><circle cx="20" cy="7" r="3"/><circle cx="20" cy="14" r="3"/><circle cx="8" cy="21" r="3"/></svg></span>
+      <span>CV<span class="brand-light">Match</span><small>CAREER INTELLIGENCE</small></span>
+    </a>
+    <nav class="header-nav" aria-label="Điều hướng chính"><a href="#workspace" class="nav-active">Phân tích CV</a><button type="button" id="help-button">Hướng dẫn</button></nav>
+    <span class="local-status"><span class="status-dot"></span>Chạy trên máy của bạn</span>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy"><div class="eyebrow"><span></span>ĐỒ ÁN CHUYÊN NGÀNH · CÔNG NGHỆ THÔNG TIN</div>
+        <h1 id="page-title">Một CV. Nhiều cơ hội.<br><span>Tìm vị trí phù hợp với bạn.</span></h1>
+        <p>Kết nối kỹ năng trong CV với yêu cầu tuyển dụng thực tập.<br class="desktop-only"> Phân tích bằng mô hình mạng nơ-ron đồ thị của nhóm.</p>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <svg viewBox="0 0 370 170" fill="none">
+          <circle cx="180" cy="85" r="74" stroke="#dce8e2" stroke-dasharray="4 7"/>
+          <path d="M73 85H134M187 48L240 30M187 85H273M187 120L244 146M154 80l28-31m-28 36h28m-28 5 28 29" stroke="#afcfc0" stroke-width="1.8"/>
+          <rect x="22" y="57" width="64" height="58" rx="14" fill="white" stroke="#d7e3dc"/>
+          <path d="M43 73h16m-16 9h23m-23 9h23m-23 9h12" stroke="#598875" stroke-width="2.4" stroke-linecap="round"/>
+          <circle cx="151" cy="85" r="21" fill="#0b634c"/><circle cx="151" cy="85" r="8" stroke="#e2f3c6" stroke-width="2"/>
+          <circle cx="183" cy="46" r="7" fill="#c5dfae"/><circle cx="188" cy="85" r="7" fill="#c5dfae"/><circle cx="183" cy="123" r="7" fill="#c5dfae"/>
+          <rect x="242" y="13" width="95" height="32" rx="10" fill="white" stroke="#d7e3dc"/><text x="258" y="34" fill="#3d6254" font-size="12" font-family="Segoe UI, sans-serif">Backend</text>
+          <rect x="272" y="69" width="95" height="32" rx="10" fill="#e6efdb" stroke="#cbdcb8"/><text x="288" y="90" fill="#3d6254" font-size="12" font-family="Segoe UI, sans-serif">Frontend</text>
+          <rect x="244" y="130" width="95" height="32" rx="10" fill="white" stroke="#d7e3dc"/><text x="259" y="151" fill="#3d6254" font-size="12" font-family="Segoe UI, sans-serif">Data &amp; AI</text>
+        </svg>
+        <span>CV <span>→</span> Kỹ năng <span>→</span> Cơ hội</span>
+      </div>
+    </section>
+
+    <section class="model-bar" aria-label="Mô hình đang sử dụng">
+      <div class="model-picker"><span class="small-icon" aria-hidden="true">◈</span><div><label for="run-select">MÔ HÌNH ĐANG DÙNG</label><select id="run-select" disabled><option>Đang tải mô hình…</option></select></div></div>
+      <div class="model-stat"><strong id="cv-count">—</strong><span>CV trong bộ dữ liệu</span></div>
+      <div class="model-stat"><strong id="job-count">—</strong><span>vị trí trong danh mục</span></div>
+      <span id="dataset-badge" class="dataset-badge">Đang kết nối</span>
+    </section>
+    <div id="dataset-notice" class="dataset-notice" role="status" hidden></div>
+
+    <div class="workspace" id="workspace">
+      <section class="input-panel panel" aria-labelledby="input-title">
+        <div class="panel-heading"><div class="step-number">01</div><div><h2 id="input-title">Hồ sơ của bạn</h2><p>Bắt đầu với nội dung CV cần phân tích.</p></div></div>
+        <form id="cv-form">
+          <div class="tabs" role="tablist" aria-label="Cách nhập CV"><button id="text-tab" type="button" role="tab" aria-selected="true" aria-controls="text-panel" class="active">Dán nội dung</button><button id="file-tab" type="button" role="tab" aria-selected="false" aria-controls="file-panel" tabindex="-1">Tải tệp lên</button></div>
+          <p id="file-status" class="file-status" role="status" hidden></p>
+          <div id="text-panel" role="tabpanel" aria-labelledby="text-tab">
+            <div class="field-heading"><label for="cv-text">Nội dung CV <span class="required">*</span></label><button type="button" id="sample-button" class="text-button">Dùng CV mẫu <span aria-hidden="true">↗</span></button></div>
+            <textarea id="cv-text" rows="11" maxlength="100000" placeholder="Dán CV của bạn tại đây…&#10;&#10;Nên có thông tin về kỹ năng, học vấn, kinh nghiệm và các dự án đã thực hiện." aria-describedby="text-hint"></textarea>
+            <div class="textarea-footer"><span id="text-hint">Giữ lại nội dung liên quan đến chuyên môn.</span><span id="character-count">0 ký tự</span></div>
+          </div>
+          <div id="file-panel" role="tabpanel" aria-labelledby="file-tab" hidden>
+            <div class="drop-zone" id="drop-zone">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M15 7h13l8 8v26H12V7h3m16 1v9h8M24 33V22m-5 5 5-5 5 5"/></svg>
+              <strong>Thả CV vào đây</strong><p>hoặc chọn tệp từ máy tính của bạn</p>
+              <label for="cv-file" class="file-label">Chọn tệp</label><input id="cv-file" type="file" accept=".txt,.json,text/plain,application/json">
+              <small>TXT hoặc JSON · Tối đa 1 MB</small>
+            </div>
+            <p class="upload-hint">Với CV dạng PDF, bạn có thể sao chép văn bản sang tab “Dán nội dung”.</p>
+          </div>
+          <div class="skills-field"><label for="cv-skills">Kỹ năng <span class="optional">không bắt buộc</span></label><input id="cv-skills" type="text" maxlength="10000" placeholder="Ví dụ: Python, SQL, Git"><p class="field-hint">Phân cách bằng dấu phẩy. Để trống để tự nhận diện.</p></div>
+          <div class="form-options"><label for="top-k">Số vị trí muốn xem</label><select id="top-k"><option value="3">Top 3</option><option value="5" selected>Top 5</option><option value="10">Top 10</option><option value="20">Top 20</option></select></div>
+          <div id="form-error" class="form-error" role="alert" hidden></div>
+          <button id="analyze-button" class="primary-button" type="submit" disabled><span class="spinner" hidden></span><span id="analyze-label">Phân tích CV</span><span class="button-arrow" aria-hidden="true">→</span></button>
+          <p class="privacy-note"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 7V5a4 4 0 0 1 8 0v2M3 7h10v8H3z"/></svg>Nội dung CV được xử lý trên máy, không lưu tệp tải lên.</p>
+        </form>
+      </section>
+
+      <section class="results-panel" aria-labelledby="results-title" aria-busy="false">
+        <div class="results-heading"><div><div class="section-kicker">GỢI Ý DÀNH CHO BẠN</div><h2 id="results-title">Khám phá vị trí phù hợp</h2></div><button id="export-button" class="export-button" type="button" disabled aria-label="Tải kết quả dạng CSV"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2v11m-4-4 4 4 4-4M3 13v4h14v-4"/></svg>Xuất CSV</button></div>
+        <div id="empty-state" class="empty-state">
+          <div class="empty-illustration" aria-hidden="true"><svg viewBox="0 0 140 120"><circle cx="72" cy="57" r="44" fill="#edf2e9"/><rect x="36" y="24" width="54" height="72" rx="8" fill="white" stroke="#b8cdbf" stroke-width="1.5"/><path d="M48 40h22m-22 12h30m-30 12h21m-21 12h16" stroke="#b6c9ba" stroke-width="2" stroke-linecap="round"/><circle cx="91" cy="77" r="19" fill="#e1edcd" stroke="#0b634c" stroke-width="1.5"/><path d="m83 77 5 5 10-11" stroke="#0b634c" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+          <h3>Mỗi hành trình bắt đầu từ một CV</h3><p>Thêm hồ sơ bên trái để xem các vị trí<br>và kỹ năng cần bổ sung cho từng công việc.</p><span class="empty-footnote">Nhập CV <span>→</span> Phân tích <span>→</span> Khám phá</span>
+        </div>
+        <div id="loading-state" class="loading-state" role="status" hidden><span class="large-spinner"></span><h3>Đang kết nối kỹ năng với cơ hội…</h3><p>Mô hình đang phân tích hồ sơ của bạn.</p></div>
+        <div id="results-content" hidden>
+          <div class="recognized-box"><div><span class="recognized-icon" aria-hidden="true">✦</span><strong>Kỹ năng được sử dụng</strong><span id="skill-count" class="count-badge"></span></div><div id="recognized-skills" class="tags"></div><p id="unknown-skills" class="field-hint" hidden></p></div>
+          <p id="result-summary" class="result-summary" aria-live="polite"></p>
+          <div id="job-results" class="job-results"></div>
+          <p class="score-note">Điểm của mô hình dùng để xếp hạng, không phải xác suất được tuyển. Kỹ năng trùng và thiếu được đối chiếu trực tiếp với yêu cầu của vị trí.</p>
+        </div>
+      </section>
+    </div>
+    <footer><span>CVMatch <span class="footer-separator">/</span> Đồ án chuyên ngành công nghệ phần mềm</span><span>Python · GraphSAGE · GNN</span></footer>
+  </main>
+  <dialog id="help-dialog"><button id="close-help" class="close-dialog" aria-label="Đóng hướng dẫn">×</button><div class="section-kicker">BẮT ĐẦU TRONG 3 BƯỚC</div><h2>Từ hồ sơ đến cơ hội</h2><ol><li><strong>Chọn mô hình đã huấn luyện.</strong><p>Mô hình mới lưu trong thư mục runs sẽ xuất hiện khi bạn tải lại trang.</p></li><li><strong>Nhập nội dung CV.</strong><p>Dán văn bản hoặc tải TXT/JSON. Tệp JSON cần trường cv_text; cv_skills là danh sách kỹ năng tùy chọn.</p></li><li><strong>Bấm “Phân tích CV”.</strong><p>Xem điểm xếp hạng, kỹ năng trùng và kỹ năng cần bổ sung. Bạn có thể xuất kết quả thành CSV.</p></li></ol><p class="help-note">Mô hình demo dùng dữ liệu giả lập để kiểm tra chương trình. Cần huấn luyện trên dữ liệu hoàn chỉnh trước khi đánh giá chất lượng gợi ý.</p><button id="help-done" class="primary-button" type="button">Bắt đầu phân tích <span aria-hidden="true">→</span></button></dialog>
+</body>
+</html>
